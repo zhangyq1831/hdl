@@ -113,6 +113,7 @@ module ad_ip_jesd204_tpl_dac #(
   wire [NUM_CHANNELS*16-1:0] dac_pat_data_0_s;
   wire [NUM_CHANNELS*16-1:0] dac_pat_data_1_s;
   wire [NUM_CHANNELS*4-1:0] dac_data_sel_s;
+  wire [NUM_CHANNELS-1:0] dac_mask_enable_s;
   wire [NUM_CHANNELS-1:0]  dac_iqcor_enb;
   wire [NUM_CHANNELS*16-1:0] dac_iqcor_coeff_1;
   wire [NUM_CHANNELS*16-1:0] dac_iqcor_coeff_2;
@@ -174,6 +175,7 @@ module ad_ip_jesd204_tpl_dac #(
     .dac_pat_data_0 (dac_pat_data_0_s),
     .dac_pat_data_1 (dac_pat_data_1_s),
     .dac_data_sel (dac_data_sel_s),
+    .dac_mask_enable (dac_mask_enable_s),
 
     .dac_iqcor_enb (dac_iqcor_enb),
     .dac_iqcor_coeff_1 (dac_iqcor_coeff_1),
@@ -235,6 +237,7 @@ module ad_ip_jesd204_tpl_dac #(
     .dac_pat_data_0 (dac_pat_data_0_s),
     .dac_pat_data_1 (dac_pat_data_1_s),
     .dac_data_sel (dac_data_sel_s),
+    .dac_mask_enable (dac_mask_enable_s),
 
     .dac_iqcor_enb (dac_iqcor_enb),
     .dac_iqcor_coeff_1 (dac_iqcor_coeff_1),

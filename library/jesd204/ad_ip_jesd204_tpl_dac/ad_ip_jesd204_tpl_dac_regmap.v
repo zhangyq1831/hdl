@@ -73,6 +73,7 @@ module ad_ip_jesd204_tpl_dac_regmap #(
   output dac_external_sync_ctl,
 
   output [NUM_CHANNELS*4-1:0] dac_data_sel,
+  output [NUM_CHANNELS-1:0] dac_mask_enable,
   output dac_dds_format,
 
   output [NUM_CHANNELS*16-1:0] dac_dds_scale_0,
@@ -271,6 +272,7 @@ module ad_ip_jesd204_tpl_dac_regmap #(
       .dac_pat_data_1 (dac_pat_data_0[16*i+:16]),
       .dac_pat_data_2 (dac_pat_data_1[16*i+:16]),
       .dac_data_sel (dac_data_sel[4*i+:4]),
+      .dac_mask_enable (dac_mask_enable[i]),
       .dac_iq_mode (),
       .dac_iqcor_enb (dac_iqcor_enb[i]),
       .dac_iqcor_coeff_1 (dac_iqcor_coeff_1[16*i+:16]),

@@ -63,6 +63,7 @@ module ad_ip_jesd204_tpl_dac_core #(
   input dac_dds_format,
 
   input [NUM_CHANNELS*4-1:0] dac_data_sel,
+  input [NUM_CHANNELS-1:0]   dac_mask_enable,
 
   input [NUM_CHANNELS*16-1:0] dac_dds_scale_0,
   input [NUM_CHANNELS*16-1:0] dac_dds_init_0,
@@ -195,6 +196,7 @@ module ad_ip_jesd204_tpl_dac_core #(
       .dac_dds_format (dac_dds_format),
 
       .dac_data_sel (dac_data_sel[4*i+:4]),
+      .dac_mask_enable (dac_mask_enable[i]),
 
       .dac_dds_scale_0 (dac_dds_scale_0[16*i+:16]),
       .dac_dds_init_0 (dac_dds_init_0[16*i+:16]),
