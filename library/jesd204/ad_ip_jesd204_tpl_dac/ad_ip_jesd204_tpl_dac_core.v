@@ -161,13 +161,18 @@ module ad_ip_jesd204_tpl_dac_core #(
 
 
     if (XBAR_ENABLE == 1) begin
-      reg [DMA_CDW-1:0] dac_src_mux;
 
       // NUM_CHANNELS : 1  mux
-      always @(posedge clk) begin
-        dac_src_mux <= dac_ddata >> DMA_CDW*dac_src_chan_sel[8*i+:8];
-      end
-      assign dac_ddata_muxed[DMA_CDW*i+:DMA_CDW] = dac_src_mux;
+      ad_mux #(
+        .CH_W (DMA_CDW),
+        .CH_CNT (NUM_CHANNELS),
+        .EN_REG (1)
+      ) channel_mux (
+        .clk (clk),
+        .data_in (dac_ddata),
+        .ch_sel (dac_src_chan_sel[8*i+:8]),
+        .data_out (dac_ddata_muxed[DMA_CDW*i+:DMA_CDW])
+      );
 
     end else begin
       assign dac_ddata_muxed[DMA_CDW*i+:DMA_CDW] = dac_ddata[DMA_CDW*i+:DMA_CDW];

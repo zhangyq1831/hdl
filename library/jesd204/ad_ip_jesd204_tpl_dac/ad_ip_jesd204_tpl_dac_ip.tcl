@@ -27,6 +27,7 @@ source $ad_hdl_dir/library/scripts/adi_ip_xilinx.tcl
 adi_ip_create ad_ip_jesd204_tpl_dac
 adi_ip_files ad_ip_jesd204_tpl_dac [list \
   "$ad_hdl_dir/library/xilinx/common/ad_mul.v" \
+  "$ad_hdl_dir/library/common/ad_mux.v" \
   "$ad_hdl_dir/library/common/ad_dds_sine.v" \
   "$ad_hdl_dir/library/common/ad_dds_cordic_pipe.v" \
   "$ad_hdl_dir/library/common/ad_dds_sine_cordic.v" \
