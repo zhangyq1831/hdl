@@ -205,7 +205,7 @@ module system_top (
     .sys_spi_MISO (ad77681_spi_miso), 
     .sys_spi_MOSI (ad77681_spi_mosi), 
     .sys_spi_SCLK (ad77681_spi_sclk), 
-    .sys_spi_SS_n (ad77681_pi_cs));
+    .sys_spi_SS_n (ad77681_spi_cs));
 
 endmodule
 
