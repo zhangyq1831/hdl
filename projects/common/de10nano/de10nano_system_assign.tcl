@@ -37,10 +37,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio_bd_i[7]
 
 # push-buttons
 
-# set_location_assignment PIN_AH17 -to gpio_bd_i[0]
-# set_location_assignment PIN_AH16 -to gpio_bd_i[1]
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio_bd_i[0]
-# set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio_bd_i[1]
+set_location_assignment PIN_AH17 -to gpio_bd_i[8]
+set_location_assignment PIN_AH16 -to gpio_bd_i[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio_bd_i[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio_bd_i[9]
 
 # UART
 

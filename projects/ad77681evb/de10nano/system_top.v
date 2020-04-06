@@ -100,13 +100,13 @@ module system_top (
   // board gpio
 
   output  [  3:0]   gpio_bd_o,
-  input   [  7:0]   gpio_bd_i,
+  input   [  9:0]   gpio_bd_i,
 
   // ad77681
-
-  input            ad77681_spi_miso,
-  output           ad77681_spi_mosi,
-  output           ad77681_spi_sclk,
+  
+  input            ad77681_spi_miso, 
+  output           ad77681_spi_mosi, 
+  output           ad77681_spi_sclk, 
   output           ad77681_spi_cs,
   input            ad77681_drdy,
 
@@ -135,10 +135,10 @@ module system_top (
   assign gpio_i[33] = ad77681_sync_in;
   assign ad77681_reset = gpio_o[32];
 
-  assign gpio_i[11:4] = gpio_bd_i[7:0];
+  assign gpio_i[13:4] = gpio_bd_i[9:0];
   assign gpio_bd_o[3:0] = gpio_o[3:0];
 
-  assign gpio_i[31:12] = gpio_o[31:12];
+  assign gpio_i[31:14] = gpio_o[31:14];
 
   system_bd i_system_bd (
     .sys_clk_clk (sys_clk),
@@ -202,12 +202,10 @@ module system_top (
     .sys_gpio_bd_out_port (gpio_o[31:0]),
     .sys_gpio_in_export (gpio_i[63:32]),
     .sys_gpio_out_export (gpio_o[63:32]),
-    .spi_engine_sdo_sdo (ad77681_spi_mosi),
-    .spi_engine_sdo_t_sdo_t (),
-    .spi_engine_sdi_sdi (ad77681_spi_miso),
-    .spi_engine_cs_cs (ad77681_spi_cs),
-    .spi_engine_sclk_clk (ad77681_spi_sclk),
-    .spi_engine_trigger_trigger (ad77681_drdy));
+    .sys_spi_MISO (ad77681_spi_miso), 
+    .sys_spi_MOSI (ad77681_spi_mosi), 
+    .sys_spi_SCLK (ad77681_spi_sclk), 
+    .sys_spi_SS_n (ad77681_pi_cs));
 
 endmodule
 
