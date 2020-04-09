@@ -2,7 +2,7 @@
 # system clock
 
 add_instance sys_clk clock_source
-set_instance_parameter_value sys_clk {clockFrequency} {50000000.0}
+set_instance_parameter_value sys_clk {clockFrequency} {1000000.0}
 set_instance_parameter_value sys_clk {clockFrequencyKnown} {1}
 set_instance_parameter_value sys_clk {resetSynchronousEdges} {NONE}
 add_interface sys_clk clock sink
@@ -196,10 +196,10 @@ set_interface_property sys_gpio_out EXPORT_OF sys_gpio_out.external_connection
 add_instance sys_spi altera_avalon_spi
 set_instance_parameter_value sys_spi {clockPhase} {0}
 set_instance_parameter_value sys_spi {clockPolarity} {1}
-set_instance_parameter_value sys_spi {dataWidth} {8}
+set_instance_parameter_value sys_spi {dataWidth} {32}
 set_instance_parameter_value sys_spi {masterSPI} {1}
 set_instance_parameter_value sys_spi {numberOfSlaves} {1}
-set_instance_parameter_value sys_spi {targetClockRate} {50000000.0}
+set_instance_parameter_value sys_spi {targetClockRate} {1000000.0}
 add_connection sys_clk.clk sys_spi.clk
 add_connection sys_clk.clk_reset sys_spi.reset
 add_interface sys_spi conduit end
