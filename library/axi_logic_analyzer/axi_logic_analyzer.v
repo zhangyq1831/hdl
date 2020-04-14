@@ -112,6 +112,19 @@ module axi_logic_analyzer #(
 
   reg               streaming_on;
 
+  reg    [ 1:0]     trigger_i_m1;
+  reg    [ 1:0]     trigger_i_m2;
+  reg    [ 1:0]     trigger_i_m3;
+  reg               trigger_adc_m1;
+  reg               trigger_adc_m2;
+  reg               trigger_la_m2;
+
+  reg    [ 1:0]     any_edge_trigger;
+  reg    [ 1:0]     rise_edge_trigger;
+  reg    [ 1:0]     fall_edge_trigger;
+  reg    [ 1:0]     high_level_trigger;
+  reg    [ 1:0]     low_level_trigger;
+
   reg     [15:0]    adc_data_mn = 'd0;
   reg     [31:0]    trigger_holdoff_counter = 32'd0;
 
@@ -149,6 +162,18 @@ module axi_logic_analyzer #(
   wire              trigger_out_s;
   wire    [31:0]    trigger_delay;
   wire              trigger_out_delayed;
+
+  wire    [19:0]    pg_trigger_config;
+
+  wire    [ 1:0]    pg_en_trigger_pins;
+  wire              pg_en_trigger_adc;
+  wire              pg_en_trigger_la;
+
+  wire    [ 1:0]    pg_low_level;
+  wire    [ 1:0]    pg_high_level;
+  wire    [ 1:0]    pg_any_edge;
+  wire    [ 1:0]    pg_rise_edge;
+  wire    [ 1:0]    pg_fall_edge;
 
   wire    [31:0]    trigger_holdoff;
   wire              trigger_out_holdoff;
@@ -280,6 +305,47 @@ module axi_logic_analyzer #(
     end
   end
 
+  // pattern generator instrument triggering
+
+  assign pg_low_level  = pg_trigger_config[1:0];
+  assign pg_high_level = pg_trigger_config[3:2];
+  assign pg_any_edge   = pg_trigger_config[5:4];
+  assign pg_rise_edge  = pg_trigger_config[7:6];
+  assign pg_fall_edge  = pg_trigger_config[9:8];
+
+  assign pg_en_trigger_pins = pg_trigger_config[17:16];
+  assign pg_en_trigger_adc  = pg_trigger_config[18];
+  assign pg_en_trigger_la   = pg_trigger_config[19];
+
+  assign trigger_active = |pg_trigger_config[19:16];
+  assign trigger = (ext_trigger & pg_en_trigger_pins) |
+                   (trigger_adc_m2 & pg_en_trigger_adc) |
+                   (trigger_out_s & pg_en_trigger_la);
+
+  assign ext_trigger = |(any_edge_trigger |
+                        rise_edge_trigger |
+                        fall_edge_trigger |
+                        high_level_trigger |
+                        low_level_trigger);
+
+  // sync
+  always @(posedge clk) begin
+   trigger_i_m1 <= trigger_i;
+   trigger_i_m2 <= trigger_i_m1;
+   trigger_i_m3 <= trigger_i_m2;
+
+   trigger_adc_m1 <= trigger_in;
+   trigger_adc_m2 <= trigger_adc_m1;
+  end
+
+  always @(posedge clk) begin
+   any_edge_trigger <= (trigger_i_m3 ^ trigger_i_m2) & pg_any_edge;
+   rise_edge_trigger <= (~trigger_i_m3 & trigger_i_m2) & pg_rise_edge;
+   fall_edge_trigger <= (trigger_i_m3 & ~trigger_i_m2) & pg_fall_edge;
+   high_level_trigger <= trigger_i_m3 & pg_high_level;
+   low_level_trigger <= ~trigger_i_m3 & pg_low_level;
+  end
+
   // upsampler pattern generator
 
   always @(posedge clk_out) begin
@@ -377,6 +443,7 @@ module axi_logic_analyzer #(
     .od_pp_n (od_pp_n),
 
     .triggered (up_triggered),
+    .pg_trigger_config (pg_trigger_config),
 
     .streaming(streaming),
 
